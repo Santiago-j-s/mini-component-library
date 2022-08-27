@@ -23,18 +23,42 @@ const sizes = {
   },
 };
 
-const ProgressBar = ({ value, size }) => {
+/**
+ * @param {number} value
+ * @param {number} min
+ * @param {number} max
+ *
+ * @returns {number}
+ */
+function clamp(value, min, max) {
+  if (value > max) return max;
+
+  if (value < min) return min;
+
+  return value;
+}
+
+/**
+ * @param {{
+ *   value: number;
+ * }} param0
+ * @returns
+ */
+const ProgressBar = ({ value, size, min = 0, max = 100 }) => {
   const sizeValues = sizes[size] ?? size.medium;
+
+  const clampedValue = clamp(value, min, max);
+
   return (
     <Wrapper
       role="progressbar"
-      aria-valuenow={value}
-      aria-valuemin={0}
-      aria-valuemax={100}
+      aria-valuenow={clampedValue}
+      aria-valuemin={min}
+      aria-valuemax={max}
       aria-label="progress bar"
       style={{ ...sizeValues }}
     >
-      <Progress value={value} style={{ ...sizeValues }}></Progress>
+      <Progress value={clampedValue} style={{ ...sizeValues }}></Progress>
     </Wrapper>
   );
 };
