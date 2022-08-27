@@ -5,21 +5,24 @@ import styled from "styled-components";
 import { COLORS } from "../../constants";
 import VisuallyHidden from "../VisuallyHidden";
 
+/**
+ * @type {Record<"large" | "medium" | "small", { height: number, padding: number, radius: number }>}
+ */
 const sizes = {
   large: {
-    "--padding-y": "8px",
-    "--inner-padding": "4px 4px",
-    "--max-width": "370px",
+    height: 16,
+    padding: 4,
+    radius: 8,
   },
   medium: {
-    "--padding-y": "6px",
-    "--inner-padding": "0 0",
-    "--max-width": "370px",
+    height: 12,
+    padding: 0,
+    radius: 4,
   },
   small: {
-    "--padding-y": "4px",
-    "--inner-padding": "0 0",
-    "--max-width": "370px",
+    height: 8,
+    padding: 0,
+    radius: 4,
   },
 };
 
@@ -41,11 +44,14 @@ function clamp(value, min, max) {
 /**
  * @param {{
  *   value: number;
+ *   size: "large" | "medium" | "small";
+ *   min: number;
+ *   max: number;
  * }} param0
  * @returns
  */
 const ProgressBar = ({ value, size, min = 0, max = 100 }) => {
-  const sizeValues = sizes[size] ?? size.medium;
+  const { height, padding, radius } = sizes[size] ?? size.medium;
 
   const clampedValue = clamp(value, min, max);
 
@@ -56,28 +62,51 @@ const ProgressBar = ({ value, size, min = 0, max = 100 }) => {
       aria-valuemin={min}
       aria-valuemax={max}
       aria-label="progress bar"
-      style={{ ...sizeValues }}
+      style={{
+        "--height": `${height}px`,
+        "--padding": `${padding}px`,
+        "--max-width": "370px",
+        "--radius": `${radius}px`,
+      }}
     >
-      <Progress value={clampedValue} style={{ ...sizeValues }}></Progress>
+      <VisuallyHidden>{`${clampedValue}%`}</VisuallyHidden>
+      <BarWrapper>
+        <Progress
+          value={clampedValue}
+          style={{
+            "--width": `${clampedValue}%`,
+            "--height": `${height}px`,
+            "--padding": `${padding}px`,
+          }}
+        ></Progress>
+      </BarWrapper>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   margin: 0;
-  padding: var(--inner-padding);
+  padding: var(--padding);
   background-color: ${COLORS.transparentGray15};
+  box-shadow: inset 0px 2px 4px ${COLORS.transparentGray35};
   max-width: var(--max-width);
+  border-radius: var(--radius);
+`;
+
+const BarWrapper = styled.div`
+  border-radius: 4px;
+  // trim corners of the inner bar when progress is near-full
+  overflow: hidden;
 `;
 
 const Progress = styled.div`
   margin: 0;
   padding: 0;
   background-color: ${COLORS.primary};
-  padding: var(--padding-y) 0;
-  border-radius: 4px ${(p) => (p.value > 98 ? "4px" : 0)}
-    ${(p) => (p.value > 98 ? "4px" : 0)} 4px;
-  width: ${(p) => p.value ?? 0}%;
+  padding: var(--padding) 0;
+  border-radius: 4px 0 0 4px;
+  width: var(--width);
+  height: var(--height);
 `;
 
 export default ProgressBar;
