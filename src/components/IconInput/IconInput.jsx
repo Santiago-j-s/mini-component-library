@@ -10,6 +10,7 @@ const SIZES = {
   small: {
     fontSize: 14,
     padding: 4,
+    height: 24,
     iconSize: 16,
     iconMargin: 4,
     lineWidth: 1,
@@ -17,6 +18,7 @@ const SIZES = {
   large: {
     fontSize: 18,
     padding: 8,
+    height: 36,
     iconSize: 24,
     iconMargin: 6,
     lineWidth: 2,
@@ -35,6 +37,7 @@ const SearchInput = styled.input`
   font-weight: inherit;
 
   width: var(--width);
+  height: var(--height);
 
   padding: var(--padding);
   padding-left: 1.75em;
@@ -44,7 +47,6 @@ const SearchInput = styled.input`
 
   border: none;
   border-bottom: var(--line-width) solid ${COLORS.black};
-  margin-bottom: calc(-1 * var(--line-width));
 
   outline-offset: 2px;
 
@@ -89,6 +91,7 @@ const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
         style={{
           "--width": width + "px",
           "--padding": sizeValues.padding + "px",
+          "--height": sizeValues.height / 16 + "rem",
           "--font-size": `${sizeValues.fontSize / 16}rem`,
           "--line-width": sizeValues.lineWidth + "px",
         }}
