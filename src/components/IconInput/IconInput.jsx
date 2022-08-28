@@ -9,17 +9,15 @@ import VisuallyHidden from "../VisuallyHidden";
 const SIZES = {
   small: {
     fontSize: 14,
-    padding: 4,
     height: 24,
     iconSize: 16,
-    lineWidth: 1,
+    borderThickness: 1,
   },
   large: {
     fontSize: 18,
-    padding: 8,
     height: 36,
     iconSize: 24,
-    lineWidth: 2,
+    borderThickness: 2,
   },
 };
 
@@ -28,7 +26,7 @@ const SearchIcon = styled.div`
 
   top: 0;
   bottom: 0;
-  margin: auto;
+  margin: auto 0;
 
   width: max-content;
   height: max-content;
@@ -43,14 +41,13 @@ const SearchInput = styled.input`
   width: var(--width);
   height: var(--height);
 
-  padding: var(--padding);
-  padding-left: 1.75em;
+  padding-left: var(--height);
 
   background-color: #fff;
   color: currentColor;
 
   border: none;
-  border-bottom: var(--line-width) solid ${COLORS.black};
+  border-bottom: var(--border-thickness) solid ${COLORS.black};
 
   outline-offset: 2px;
 
@@ -90,10 +87,9 @@ const IconInput = ({ label, icon, width = 250, size, ...delegated }) => {
         type="search"
         style={{
           "--width": width + "px",
-          "--padding": sizeValues.padding + "px",
           "--height": sizeValues.height / 16 + "rem",
           "--font-size": `${sizeValues.fontSize / 16}rem`,
-          "--line-width": sizeValues.lineWidth + "px",
+          "--border-thickness": sizeValues.borderThickness + "px",
         }}
         {...delegated}
       />
