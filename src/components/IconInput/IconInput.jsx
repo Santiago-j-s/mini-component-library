@@ -12,7 +12,6 @@ const SIZES = {
     padding: 4,
     height: 24,
     iconSize: 16,
-    iconMargin: 4,
     lineWidth: 1,
   },
   large: {
@@ -20,16 +19,21 @@ const SIZES = {
     padding: 8,
     height: 36,
     iconSize: 24,
-    iconMargin: 6,
     lineWidth: 2,
   },
 };
 
-const SearchIcon = styled(Icon)`
+const SearchIcon = styled.div`
   position: absolute;
-  margin-top: ${(props) => props.iconMargin + "px"};
+
+  top: 0;
+  bottom: 0;
+  margin: auto;
+
+  width: max-content;
+  height: max-content;
+
   color: currentColor;
-  font-weight: inherit;
 `;
 
 const SearchInput = styled.input`
@@ -78,12 +82,9 @@ const IconInput = ({ label, icon, width = 250, size, ...delegated }) => {
   return (
     <Wrapper htmlFor="search-input">
       <VisuallyHidden>{label}</VisuallyHidden>
-      <SearchIcon
-        id={icon}
-        size={sizeValues.iconSize}
-        strokeWidth="2"
-        iconMargin={sizeValues.iconMargin}
-      />
+      <SearchIcon>
+        <Icon id={icon} size={sizeValues.iconSize} strokeWidth="2" />
+      </SearchIcon>
       <SearchInput
         id="search-input"
         type="search"
