@@ -25,7 +25,6 @@ const SIZES = {
 
 const SearchIcon = styled(Icon)`
   position: absolute;
-  pointer-events: none;
   margin-top: ${(props) => props.iconMargin + "px"};
   color: currentColor;
   font-weight: inherit;
@@ -45,7 +44,7 @@ const SearchInput = styled.input`
 
   border: none;
   border-bottom: var(--line-width) solid ${COLORS.black};
-  margin-bottom: -1px;
+  margin-bottom: calc(-1 * var(--line-width));
 
   outline-offset: 2px;
 
@@ -55,7 +54,8 @@ const SearchInput = styled.input`
   }
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.label`
+  display: block;
   position: relative;
   color: ${COLORS.gray500};
   width: fit-content;
@@ -74,10 +74,8 @@ const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
   const sizeValues = SIZES[size];
 
   return (
-    <Wrapper>
-      <VisuallyHidden>
-        <label htmlFor="search-input">{label}</label>
-      </VisuallyHidden>
+    <Wrapper htmlFor="search-input">
+      <VisuallyHidden>{label}</VisuallyHidden>
       <SearchIcon
         id={icon}
         size={sizeValues.iconSize}
