@@ -68,7 +68,7 @@ const Wrapper = styled.label`
   }
 `;
 
-const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
+const IconInput = ({ label, icon, width = 250, size, ...delegated }) => {
   if (!Object.keys(SIZES).includes(size)) {
     throw new Error("Invalid size");
   }
@@ -87,7 +87,6 @@ const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
       <SearchInput
         id="search-input"
         type="search"
-        placeholder={placeholder}
         style={{
           "--width": width + "px",
           "--padding": sizeValues.padding + "px",
@@ -95,6 +94,7 @@ const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
           "--font-size": `${sizeValues.fontSize / 16}rem`,
           "--line-width": sizeValues.lineWidth + "px",
         }}
+        {...delegated}
       />
     </Wrapper>
   );
